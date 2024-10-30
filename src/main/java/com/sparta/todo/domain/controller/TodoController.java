@@ -6,10 +6,9 @@ import com.sparta.todo.domain.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,12 +26,47 @@ public class TodoController {
     }
 
     //전체일정 조회
+    @GetMapping()
+    public ResponseEntity<List<TodoResponseDto>> getTodoList(@RequestParam(required = false, defaultValue = "0") int page,
+                                                             @RequestParam(required = false, defaultValue = "10") int size,
+                                                             @RequestParam(required = false, defaultValue = "modifiedAt") String criteria){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(todoService.getTodoList());
+    }
 
-    //선택일정 조회
+    //선택 일정 조회
+    @GetMapping("/{todoId}")
+    public ResponseEntity<TodoResponseDto>getTodo(@PathVariable Long todoId){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(todoService.getTodo(todoId));
+    }
 
     //선택 일정 수정
+    @PutMapping("/{todoId}")
+    public ResponseEntity<Void> updateTodo(
+            @PathVariable Long todoId,
+            @RequestBody TodoRequestDto requestDto
+    ){
+        todoService.updateTodo(todoId, requestDto);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
+
+    }
 
     //선택 일정 삭제
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<Void> deleteTodo(
+            @PathVariable Long todoId
+    ){
+        todoService.deleteTodo(todoId);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
+
+    }
 
 
 

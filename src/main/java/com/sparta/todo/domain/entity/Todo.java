@@ -48,4 +48,10 @@ public class Todo extends BaseTimeStamp {
                 getModifiedAt()
         );
     }
+
+    public void updateData(TodoRequestDto requestDto) {
+        this.userName= requestDto.getUserName();
+        this.title = requestDto.getTitle();
+        this.description = requestDto.getDescription();
+    }
 }

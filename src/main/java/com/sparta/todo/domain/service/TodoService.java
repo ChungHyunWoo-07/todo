@@ -2,9 +2,14 @@ package com.sparta.todo.domain.service;
 
 import com.sparta.todo.domain.dto.TodoRequestDto;
 import com.sparta.todo.domain.dto.TodoResponseDto;
+import com.sparta.todo.domain.dto.TodoResponsePage;
 import com.sparta.todo.domain.entity.Todo;
 import com.sparta.todo.domain.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,5 +58,12 @@ public class TodoService {
     public void deleteTodo(Long todoId) {
         todoRepository.findTodoById(todoId);
         todoRepository.deleteById(todoId);
+    }
+
+    //페이징 적용 조회
+    public TodoResponsePage getTodoListWithPaging(int page, int size, String criteria) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, criteria));
+        Page<Todo> todos = todoRepository.findAll(pageable);
+        return new TodoResponsePage(todos);
     }
 }

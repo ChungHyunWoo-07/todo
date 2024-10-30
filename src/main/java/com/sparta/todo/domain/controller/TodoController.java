@@ -2,6 +2,7 @@ package com.sparta.todo.domain.controller;
 
 import com.sparta.todo.domain.dto.TodoRequestDto;
 import com.sparta.todo.domain.dto.TodoResponseDto;
+import com.sparta.todo.domain.dto.TodoResponsePage;
 import com.sparta.todo.domain.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,12 +28,12 @@ public class TodoController {
 
     //전체일정 조회
     @GetMapping()
-    public ResponseEntity<List<TodoResponseDto>> getTodoList(@RequestParam(required = false, defaultValue = "0") int page,
-                                                             @RequestParam(required = false, defaultValue = "10") int size,
-                                                             @RequestParam(required = false, defaultValue = "modifiedAt") String criteria){
+    public ResponseEntity<TodoResponsePage> getTodoList(@RequestParam(required = false, defaultValue = "0") int page,
+                                                        @RequestParam(required = false, defaultValue = "10") int size,
+                                                        @RequestParam(required = false, defaultValue = "modifiedAt") String criteria){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(todoService.getTodoList());
+                .body(todoService.getTodoListWithPaging(page, size, criteria));
     }
 
     //선택 일정 조회

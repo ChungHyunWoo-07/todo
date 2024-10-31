@@ -4,6 +4,7 @@ import com.sparta.todo.domain.todo.dto.TodoRequestDto;
 import com.sparta.todo.domain.todo.dto.TodoResponseDto;
 import com.sparta.todo.domain.todo.dto.TodoResponsePage;
 import com.sparta.todo.domain.todo.service.TodoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class TodoController {
 
     // 일정생성
     @PostMapping
-    public ResponseEntity<TodoResponseDto> createTodo(@RequestBody TodoRequestDto requestDto) {
+    public ResponseEntity<TodoResponseDto> createTodo(@RequestBody @Valid TodoRequestDto requestDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(todoService.createTodo(requestDto));

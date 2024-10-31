@@ -1,10 +1,10 @@
-package com.sparta.todo.domain.dto;
+package com.sparta.todo.domain.todo.dto;
 
 import lombok.Getter;
 
 @Getter
 public class TodoRequestDto {
-    private String userName;
+    private Long memberId;
     private String title;
     private String description;
 }

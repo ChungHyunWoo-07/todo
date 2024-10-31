@@ -1,6 +1,6 @@
-package com.sparta.todo.domain.dto;
+package com.sparta.todo.domain.todo.dto;
 
-import com.sparta.todo.domain.entity.Todo;
+import com.sparta.todo.domain.todo.entity.Todo;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 

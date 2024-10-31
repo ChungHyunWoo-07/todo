@@ -1,4 +1,4 @@
-package com.sparta.todo.domain.dto;
+package com.sparta.todo.domain.todo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +8,6 @@ import lombok.Getter;
 public class CommentResponseDto {
     private Long id;
     private String comment;
-    private String userName;
+    private String memberName;
 
 }

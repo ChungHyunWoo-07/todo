@@ -1,4 +1,4 @@
-package com.sparta.todo.domain.dto;
+package com.sparta.todo.domain.todo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,10 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 public class TodoResponseDto {
     private Long id;
-    private String userName;
+    private String memberName;
     private String title;
     private String description;
-//    private List<CommentResponseDto> comments;
+    private List<CommentResponseDto> comments;
     private LocalDateTime createdAt;
     private LocalDateTime updateAt;
 }

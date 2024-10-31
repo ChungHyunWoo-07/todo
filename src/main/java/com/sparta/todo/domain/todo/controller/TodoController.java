@@ -1,15 +1,13 @@
-package com.sparta.todo.domain.controller;
+package com.sparta.todo.domain.todo.controller;
 
-import com.sparta.todo.domain.dto.TodoRequestDto;
-import com.sparta.todo.domain.dto.TodoResponseDto;
-import com.sparta.todo.domain.dto.TodoResponsePage;
-import com.sparta.todo.domain.service.TodoService;
+import com.sparta.todo.domain.todo.dto.TodoRequestDto;
+import com.sparta.todo.domain.todo.dto.TodoResponseDto;
+import com.sparta.todo.domain.todo.dto.TodoResponsePage;
+import com.sparta.todo.domain.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -66,9 +64,16 @@ public class TodoController {
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();
-
     }
 
+    //일정 담당자 배정
+    @PostMapping("/{todoId}/assign/{memberId}")
+    public ResponseEntity<Void> assignMemberToTodo(@PathVariable Long todoId, @PathVariable Long memberId){
+        todoService.assignMember(todoId, memberId);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
+    }
 
 
 }

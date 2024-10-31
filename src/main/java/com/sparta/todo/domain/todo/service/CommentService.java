@@ -1,11 +1,13 @@
-package com.sparta.todo.domain.service;
+package com.sparta.todo.domain.todo.service;
 
-import com.sparta.todo.domain.dto.CommentRequestDto;
-import com.sparta.todo.domain.dto.CommentResponseDto;
-import com.sparta.todo.domain.entity.Comment;
-import com.sparta.todo.domain.entity.Todo;
-import com.sparta.todo.domain.repository.CommentRepository;
-import com.sparta.todo.domain.repository.TodoRepository;
+import com.sparta.todo.domain.todo.dto.CommentRequestDto;
+import com.sparta.todo.domain.todo.dto.CommentResponseDto;
+import com.sparta.todo.domain.todo.entity.Comment;
+import com.sparta.todo.domain.todo.entity.Todo;
+import com.sparta.todo.domain.todo.repository.CommentRepository;
+import com.sparta.todo.domain.todo.repository.TodoRepository;
+import com.sparta.todo.domain.user.entity.Member;
+import com.sparta.todo.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +18,14 @@ public class CommentService {
 
     private final TodoRepository todoRepository;
     private final CommentRepository commentRepository;
+    private final MemberRepository memberRepository;
+
 
     @Transactional
     public CommentResponseDto createComment(CommentRequestDto requestDto, Long todoId) {
         Todo todo = todoRepository.findTodoById(todoId);
-        Comment comment = Comment.from(requestDto, todo);
+        Member member = memberRepository.findById(requestDto.getMemberId()).orElseThrow(() -> new IllegalArgumentException("Todo not found with id: " + requestDto.getMemberId()));
+        Comment comment = Comment.from(requestDto, todo, member);
         Comment savedComment = commentRepository.save(comment);
         return savedComment.to();
     }

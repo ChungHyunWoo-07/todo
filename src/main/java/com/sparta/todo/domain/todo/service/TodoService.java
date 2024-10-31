@@ -1,10 +1,12 @@
-package com.sparta.todo.domain.service;
+package com.sparta.todo.domain.todo.service;
 
-import com.sparta.todo.domain.dto.TodoRequestDto;
-import com.sparta.todo.domain.dto.TodoResponseDto;
-import com.sparta.todo.domain.dto.TodoResponsePage;
-import com.sparta.todo.domain.entity.Todo;
-import com.sparta.todo.domain.repository.TodoRepository;
+import com.sparta.todo.domain.todo.dto.TodoRequestDto;
+import com.sparta.todo.domain.todo.dto.TodoResponseDto;
+import com.sparta.todo.domain.todo.dto.TodoResponsePage;
+import com.sparta.todo.domain.todo.entity.Todo;
+import com.sparta.todo.domain.todo.repository.TodoRepository;
+import com.sparta.todo.domain.user.entity.Member;
+import com.sparta.todo.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,17 +23,15 @@ import java.util.stream.Collectors;
 public class TodoService {
 
     private final TodoRepository todoRepository;
+    private final MemberRepository memberRepository;
+
 
     @Transactional
     public TodoResponseDto createTodo(TodoRequestDto requestDto) {
-        //일정 생성
-        //DTO -> ENTITY
-        Todo todo = Todo.from(requestDto);
-
-        //일정 DB에 저장
-        Todo savedTodo = todoRepository.save(todo);
-
-        return savedTodo.to();
+        Member member = memberRepository.findById(requestDto.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("Todo not found with id: " + requestDto.getMemberId()));
+        Todo todo = todoRepository.save(Todo.from(requestDto, member));
+        return todo.to();
 
     }
 
@@ -58,6 +58,13 @@ public class TodoService {
     public void deleteTodo(Long todoId) {
         todoRepository.findTodoById(todoId);
         todoRepository.deleteById(todoId);
+    }
+
+    @Transactional
+    public void assignMember(Long todoId, Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("Todo not found with id: " + memberId));
+        Todo todo = todoRepository.findTodoById(todoId);
+        todo.addMember(member);
     }
 
     //페이징 적용 조회

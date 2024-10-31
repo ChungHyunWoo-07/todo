@@ -1,8 +1,8 @@
-package com.sparta.todo.domain.controller;
+package com.sparta.todo.domain.todo.controller;
 
-import com.sparta.todo.domain.dto.CommentRequestDto;
-import com.sparta.todo.domain.dto.CommentResponseDto;
-import com.sparta.todo.domain.service.CommentService;
+import com.sparta.todo.domain.todo.dto.CommentRequestDto;
+import com.sparta.todo.domain.todo.dto.CommentResponseDto;
+import com.sparta.todo.domain.todo.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
